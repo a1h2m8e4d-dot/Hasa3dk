@@ -93,7 +93,6 @@ function openSubject(sub) {
     currentActiveSubject = sub;
     document.getElementById('subjectTitle').innerText = sub;
     document.getElementById('subjectNotes').value = userData.subjects[sub].notes;
-    document.getElementById('openPdfBtn').href = userData.subjects[sub].pdf;
     renderChapters(); updateSubjectProgress(); showScreen('subject-screen');
 }
 
@@ -162,4 +161,5 @@ function renderGpa() {
     let finalGpa = totalHours === 0 ? 0 : (totalPoints / totalHours).toFixed(2);
     document.getElementById('finalGpa').innerText = finalGpa;
 }
+
 function removeGpa(index) { gpaCourses.splice(index, 1); saveData(); renderGpa(); }

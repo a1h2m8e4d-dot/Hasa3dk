@@ -27,9 +27,10 @@
         </div>
 
         <div id="dashboard-screen" class="screen" style="display: none;">
-            <div class="header">
+           <div class="header">
                 <h2 id="welcomeName">مرحباً</h2>
-                <div>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <div class="coin-badge" title="حصالة العملات">🪙 <span id="dashCoinCount">0</span></div>
                     <button class="btn-icon" onclick="toggleDarkMode()">🌙/☀️</button>
                     <button class="btn-danger" onclick="logout()">خروج</button>
                 </div>
@@ -53,6 +54,7 @@
             <div class="header">
                 <button class="btn-secondary" onclick="goBack()">&rarr; رجوع</button>
                 <h2 id="subjectTitle">اسم المادة</h2>
+                <div class="coin-badge" title="حصالة العملات">🪙 <span id="subCoinCount">0</span></div>
             </div>
 
            
@@ -108,4 +110,5 @@
     </div> <script src="script.js"></script>
 </body>
 </html>
+
 

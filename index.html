@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>هساعدك تذاكر</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+    <div id="splash-screen" class="splash-screen">
+        <h1>📚 هساعدك تذاكر</h1>
+        <p>طريقك للتفوق...</p>
+    </div>
+
+    <div class="app-container" id="app-container" style="display: none;">
+        
+        <div id="login-screen" class="screen">
+            <h2>مرحباً بك 🎓</h2>
+            <input type="text" id="studentName" placeholder="اكتب اسمك هنا...">
+            <select id="takesCourses">
+                <option value="yes">بآخد كورسات</option>
+                <option value="no">مابآخدش كورسات (اعتماد ذاتي)</option>
+            </select>
+            <button class="btn-primary" onclick="startApp()">دخول</button>
+        </div>
+
+        <div id="dashboard-screen" class="screen" style="display: none;">
+            <div class="header">
+                <h2 id="welcomeName">مرحباً</h2>
+                <div>
+                    <button class="btn-icon" onclick="toggleDarkMode()">🌙/☀️</button>
+                    <button class="btn-danger" onclick="logout()">خروج</button>
+                </div>
+            </div>
+            
+            <div class="quote-card" id="quoteText">"النجاح هو مجموع مجهودات صغيرة تتكرر يومياً."</div>
+
+            <div class="overall-progress-card">
+                <h3>التقدم الدراسي الشامل</h3>
+                <div class="progress-bar-bg"><div class="progress-bar-fill" id="overallProgressBar"></div></div>
+                <p id="overallProgressText">0%</p>
+            </div>
+
+            <button class="btn-secondary" style="width: 100%; margin-bottom: 20px;" onclick="showScreen('gpa-screen')">🧮 حاسبة المعدل (GPA)</button>
+
+            <h3 class="section-title">المواد الدراسية 📚</h3>
+            <div class="subjects-grid" id="subjectsGrid"></div>
+        </div>
+
+        <div id="subject-screen" class="screen" style="display: none;">
+            <div class="header">
+                <button class="btn-secondary" onclick="goBack()">&rarr; رجوع</button>
+                <h2 id="subjectTitle">اسم المادة</h2>
+            </div>
+
+            <a id="openPdfBtn" href="#" target="_blank" class="btn-primary" style="display: block; text-align: center; text-decoration: none; margin-bottom: 15px; box-sizing: border-box;">📖 فتح كتاب المادة (PDF)</a>
+
+            <div class="pomodoro-card">
+                <h3>⏱ مؤقت التركيز (Pomodoro)</h3>
+                <div class="timer-display" id="timerDisplay">25:00</div>
+                <div class="timer-controls">
+                    <button class="btn-primary" onclick="startTimer()">ابدأ</button>
+                    <button class="btn-secondary" onclick="pauseTimer()">توقف</button>
+                    <button class="btn-danger" onclick="resetTimer()">إعادة</button>
+                </div>
+            </div>
+
+            <div class="subject-progress-card">
+                <h3>إنجاز المادة</h3>
+                <div class="progress-bar-bg"><div class="progress-bar-fill" id="subjectProgressBar"></div></div>
+                <p id="subjectProgressText">0%</p>
+            </div>
+
+            <h3 class="section-title">فصول المادة</h3>
+            <div id="chaptersList" class="chapters-list"></div>
+
+            <h3 class="section-title">دفتر الملاحظات 📝</h3>
+            <textarea id="subjectNotes" placeholder="اكتب ملاحظاتك..." oninput="saveNotes()"></textarea>
+        </div>
+
+        <div id="gpa-screen" class="screen" style="display: none;">
+            <div class="header">
+                <button class="btn-secondary" onclick="showScreen('dashboard-screen')">&rarr; رجوع</button>
+                <h2>حاسبة الـ GPA 🧮</h2>
+            </div>
+            <div class="gpa-card">
+                <input type="number" id="gpaHours" placeholder="عدد الساعات للمادة...">
+                <select id="gpaGrade">
+                    <option value="4">A (امتياز)</option>
+                    <option value="3">B (جيد جداً)</option>
+                    <option value="2">C (جيد)</option>
+                    <option value="1">D (مقبول)</option>
+                </select>
+                <button class="btn-primary" onclick="addCourseToGpa()">إضافة المادة</button>
+            </div>
+            <ul id="gpaList" class="chapters-list" style="margin-top: 15px;"></ul>
+            <div class="overall-progress-card">
+                <h3>المعدل التراكمي (GPA)</h3>
+                <h2 id="finalGpa" style="color: var(--primary);">0.00</h2>
+            </div>
+        </div>
+
+    </div>
+<div class="footer">
+            <p>جميع الحقوق محفوظة &copy; 2026 | تطوير <b>Ahmed Hafez</b></p>
+        </div>
+    <script src="script.js"></script>
+</body>
+</html>

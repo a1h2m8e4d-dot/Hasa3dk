@@ -1,13 +1,13 @@
 :root {
-    --bg-color: #ffeaa7; /* لون أصفر فاتح مبهج للخلفية */
+    --bg-color: #ffeaa7;
     --container-bg: #ffffff;
     --text-color: #2d3436;
-    --primary: #ff7675; /* أحمر كرتوني */
+    --primary: #ff7675;
     --primary-hover: #d63031;
-    --secondary: #74b9ff; /* أزرق فاتح */
-    --danger: #fdcb6e; /* برتقالي */
-    --success: #55efc4; /* أخضر نعناعي */
-    --border-color: #2d3436; /* حدود سودة عريضة */
+    --secondary: #74b9ff;
+    --danger: #fdcb6e;
+    --success: #55efc4;
+    --border-color: #2d3436;
 }
 
 body.dark-mode {
@@ -24,10 +24,39 @@ body {
     margin: 0;
     display: flex;
     justify-content: center;
-    transition: 0.3s;
     background-image: radial-gradient(var(--secondary) 10%, transparent 10%);
-    background-size: 20px 20px; /* خلفية منقطة زي القصص المصورة */
+    background-size: 20px 20px;
 }
+
+/* البار العلوي */
+.top-bar {
+    position: fixed; top: 0; width: 100%; max-width: 450px;
+    background-color: var(--container-bg);
+    border-bottom: 4px solid var(--border-color);
+    border-left: 4px solid var(--border-color);
+    border-right: 4px solid var(--border-color);
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 20px; box-sizing: border-box; z-index: 1000;
+}
+
+/* البار السفلي */
+.bottom-bar {
+    position: fixed; bottom: 0; width: 100%; max-width: 450px;
+    background-color: var(--container-bg);
+    border-top: 4px solid var(--border-color);
+    border-left: 4px solid var(--border-color);
+    border-right: 4px solid var(--border-color);
+    display: flex; justify-content: space-around; align-items: center;
+    padding: 10px 0; box-sizing: border-box; z-index: 1000;
+}
+
+.nav-item {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    cursor: pointer; transition: 0.2s;
+}
+.nav-item:active { transform: scale(0.9); }
+.nav-icon { font-size: 24px; margin-bottom: 2px; }
+.nav-text { font-size: 12px; font-weight: bold; color: var(--text-color); }
 
 .app-container {
     background-color: var(--container-bg);
@@ -35,98 +64,58 @@ body {
     padding: 20px; box-sizing: border-box;
     border-left: 4px solid var(--border-color);
     border-right: 4px solid var(--border-color);
+    position: relative;
 }
 
-.screen { animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-@keyframes popIn { 
-    from { opacity: 0; transform: scale(0.9); } 
-    to { opacity: 1; transform: scale(1); } 
+/* مساحات المحتوى عشان مايدخلش تحت البارات الثابتة */
+.main-content {
+    padding-top: 60px; /* مساحة للبار العلوي */
+    padding-bottom: 80px; /* مساحة للبار السفلي */
 }
+
+.screen { animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+@keyframes popIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
 
 h2, h3 { color: var(--text-color); font-weight: 900; letter-spacing: 1px; }
 
-/* الشكل الكرتوني للزراير والمدخلات */
 input, select, textarea, button, .subject-card, .overall-progress-card, .pomodoro-card, .gpa-card, .chapter-item {
-    border: 3px solid var(--border-color);
-    border-radius: 12px;
-    box-shadow: 4px 4px 0px var(--border-color);
-    transition: all 0.1s ease-in-out;
+    border: 3px solid var(--border-color); border-radius: 12px; box-shadow: 4px 4px 0px var(--border-color); transition: all 0.1s;
 }
 
 input, select, textarea {
-    width: 100%; padding: 12px; margin-bottom: 15px;
-    background-color: var(--container-bg); color: var(--text-color); box-sizing: border-box;
-    font-weight: bold;
+    width: 100%; padding: 12px; margin-bottom: 15px; background-color: var(--container-bg); color: var(--text-color); font-weight: bold; box-sizing: border-box;
 }
-textarea { height: 100px; resize: none; }
 
-button {
-    padding: 12px; cursor: pointer; font-weight: 900; font-size: 16px; color: #111;
-}
-button:active, .subject-card:active {
-    transform: translate(4px, 4px);
-    box-shadow: 0px 0px 0px var(--border-color); /* تأثير الضغطة الكرتونية */
-}
+button { padding: 12px; cursor: pointer; font-weight: 900; font-size: 16px; color: #111; }
+button:active, .subject-card:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px var(--border-color); }
 
 .btn-primary { background-color: var(--primary); width: 100%; color: white; }
 .btn-secondary { background-color: var(--secondary); width: auto; padding: 8px 15px; }
 .btn-danger { background-color: var(--danger); width: auto; padding: 8px 15px; }
-.btn-icon { background: var(--container-bg); font-size: 20px; padding: 5px 10px; }
+.btn-icon { background: var(--container-bg); font-size: 20px; padding: 5px 10px; border-radius: 8px; border: 2px solid var(--border-color); box-shadow: 2px 2px 0px var(--border-color); cursor: pointer; }
+.btn-icon:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0px var(--border-color); }
 
 .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 
-.quote-card { 
-    background-color: var(--success); 
-    padding: 15px; margin-bottom: 20px; 
-    font-weight: bold; text-align: center;
-}
+.quote-card { background-color: var(--success); padding: 15px; margin-bottom: 20px; font-weight: bold; text-align: center; }
 
-.progress-bar-bg { 
-    background-color: white; border: 3px solid var(--border-color); 
-    border-radius: 20px; height: 20px; width: 100%; margin: 10px 0; overflow: hidden; 
-}
+.progress-bar-bg { background-color: white; border: 3px solid var(--border-color); border-radius: 20px; height: 20px; width: 100%; margin: 10px 0; overflow: hidden; }
 .progress-bar-fill { background-color: var(--primary); height: 100%; width: 0%; transition: 0.4s ease; border-right: 3px solid var(--border-color);}
 
-.overall-progress-card, .subject-progress-card, .pomodoro-card, .gpa-card {
-    background-color: #fff; padding: 15px; text-align: center; margin-bottom: 20px;
-}
+.overall-progress-card, .subject-progress-card, .pomodoro-card, .gpa-card { background-color: #fff; padding: 15px; text-align: center; margin-bottom: 20px; }
 
 .timer-display { font-size: 45px; font-weight: 900; margin: 10px 0; color: var(--border-color); text-shadow: 2px 2px 0px var(--secondary); }
 .timer-controls { display: flex; gap: 10px; justify-content: center; }
 
 .subjects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-.subject-card {
-    background-color: var(--secondary); cursor: pointer; padding: 15px; text-align: center;
-}
+.subject-card { background-color: var(--secondary); cursor: pointer; padding: 15px; text-align: center; }
 .subject-card h4 { margin: 0 0 10px 0; font-size: 18px; color: #111; }
 .subject-card p { font-weight: bold; color: #111; margin: 5px 0;}
 
-.chapter-item {
-    display: flex; align-items: center; background-color: white; padding: 12px; margin-bottom: 10px; cursor: pointer; font-weight: bold;
-}
+.chapter-item { display: flex; align-items: center; background-color: white; padding: 12px; margin-bottom: 10px; cursor: pointer; font-weight: bold; }
 .chapter-item input { margin-left: 15px; width: 25px; height: 25px; cursor: pointer; accent-color: var(--primary); }
 .chapter-item.completed { background-color: var(--success); text-decoration: line-through; opacity: 0.8; }
 
-.footer { text-align: center; margin-top: 30px; padding-top: 15px; font-size: 14px; font-weight: bold; }
-.footer b { color: var(--primary); }
-body.dark-mode .footer {
-    color: #bdc3c7;
+.coin-badge { background-color: var(--danger); border: 2px solid var(--border-color); border-radius: 8px; padding: 5px 10px; font-weight: 900; font-size: 16px; color: #111; box-shadow: 2px 2px 0px var(--border-color); display: flex; align-items: center; gap: 5px; }
 
-}
-
-/* تصميم حصالة العملات */
-.coin-badge {
-    background-color: var(--danger);
-    border: 3px solid var(--border-color);
-    border-radius: 12px;
-    padding: 5px 12px;
-    font-weight: 900;
-    font-size: 18px;
-    color: #111;
-    box-shadow: 3px 3px 0px var(--border-color);
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    background-image: linear-gradient(45deg, rgba(255,255,255,0.2) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.2) 75%, transparent 75%, transparent);
-    background-size: 10px 10px;
-}
+.splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: var(--primary); color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; transition: opacity 0.5s ease; }

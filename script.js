@@ -1,10 +1,10 @@
 const defaultSubjects = {
-    "محاسبة 2": { totalChapters: 4, completed: [false, false, false, false], notes: "", pdf: "books/acc2.pdf" },
-    "محاسبة انجلش": { totalChapters: 5, completed: [false, false, false, false, false], notes: "", pdf: "books/acc_en.pdf" },
-    "اقتصاد كلي": { totalChapters: 6, completed: [false, false, false, false, false, false], notes: "", pdf: "books/macro.pdf" },
-    "موارد اقتصادية": { totalChapters: 6, completed: [false, false, false, false, false, false], notes: "", pdf: "books/resources.pdf" },
-    "إدارة عامة": { totalChapters: 5, completed: [false, false, false, false, false], notes: "", pdf: "books/management.pdf" },
-    "قانون": { totalChapters: 4, completed: [false, false, false, false], notes: "", pdf: "books/law.pdf" }
+    "محاسبة 2": { totalChapters: 4, completed: [false, false, false, false], notes: "" },
+    "محاسبة انجلش": { totalChapters: 5, completed: [false, false, false, false, false], notes: "" },
+    "اقتصاد كلي": { totalChapters: 6, completed: [false, false, false, false, false, false], notes: "" },
+    "موارد اقتصادية": { totalChapters: 6, completed: [false, false, false, false, false, false], notes: "" },
+    "إدارة عامة": { totalChapters: 5, completed: [false, false, false, false, false], notes: "" },
+    "قانون": { totalChapters: 4, completed: [false, false, false, false], notes: "" }
 };
 
 const quotes = [
@@ -25,13 +25,16 @@ window.onload = () => {
     if(localStorage.getItem('darkMode') === 'true') document.body.classList.add('dark-mode');
 
     setTimeout(() => {
-        document.getElementById('splash-screen').style.opacity = '0';
-        setTimeout(() => {
-            document.getElementById('splash-screen').style.display = 'none';
-            document.getElementById('app-container').style.display = 'block';
-            if (userData) { showScreen('dashboard-screen'); renderDashboard(); } 
-            else { showScreen('login-screen'); }
-        }, 500);
+        const splashScreen = document.getElementById('splash-screen');
+        if(splashScreen) {
+            splashScreen.style.opacity = '0';
+            setTimeout(() => {
+                splashScreen.style.display = 'none';
+                document.getElementById('app-container').style.display = 'block';
+                if (userData) { showScreen('dashboard-screen'); renderDashboard(); } 
+                else { showScreen('login-screen'); }
+            }, 500);
+        }
     }, 2000);
 };
 
@@ -39,7 +42,7 @@ window.onload = () => {
 function showScreen(screenId) {
     document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
     document.getElementById(screenId).style.display = 'block';
-    if(screenId === 'wishlist-screen') renderWishlist(); // تحديث عشان الأمنيات
+    if(screenId === 'wishlist-screen') renderWishlist(); // تحديث قائمة الأمنيات عند فتحها
 }
 
 // --- تسجيل الدخول والخروج ---
@@ -47,10 +50,11 @@ function startApp() {
     const name = document.getElementById('studentName').value.trim();
     if (!name) return alert("من فضلك اكتب اسمك!");
     userData = { name: name, takesCourses: document.getElementById('takesCourses').value, subjects: JSON.parse(JSON.stringify(defaultSubjects)) };
-    saveData(); showScreen('dashboard-screen'); renderDashboard();
+    saveData(); 
+    showScreen('dashboard-screen'); 
+    renderDashboard();
 }
 
-// --- تسجيل الخروج ---
 function logout() {
     if(confirm("متأكد من الخروج ومسح البيانات؟")) {
         localStorage.clear(); 
@@ -85,11 +89,12 @@ function renderDashboard() {
         card.onclick = () => openSubject(sub);
         card.innerHTML = `<h4>${sub}</h4><p>${data.totalChapters} فصول</p><p style="color: var(--success);">${Math.round((done/data.totalChapters)*100)}%</p>`;
         grid.appendChild(card);
-        updateCoins();
     }
     let overAll = Math.round((totalDone / totalAll) * 100);
     document.getElementById('overallProgressBar').style.width = `${overAll}%`;
     document.getElementById('overallProgressText').innerText = `${overAll}%`;
+    
+    updateCoins();
 }
 
 // --- تفاصيل المادة ---
@@ -97,13 +102,22 @@ function openSubject(sub) {
     currentActiveSubject = sub;
     document.getElementById('subjectTitle').innerText = sub;
     document.getElementById('subjectNotes').value = userData.subjects[sub].notes;
-    renderChapters(); updateSubjectProgress(); showScreen('subject-screen');
+    renderChapters(); 
+    updateSubjectProgress(); 
+    showScreen('subject-screen');
 }
 
-function goBack() { currentActiveSubject = null; saveData(); renderDashboard(); showScreen('dashboard-screen'); resetTimer(); }
+function goBack() { 
+    currentActiveSubject = null; 
+    saveData(); 
+    renderDashboard(); 
+    showScreen('dashboard-screen'); 
+    resetTimer(); 
+}
 
 function renderChapters() {
-    const list = document.getElementById('chaptersList'); list.innerHTML = '';
+    const list = document.getElementById('chaptersList'); 
+    list.innerHTML = '';
     let data = userData.subjects[currentActiveSubject];
     for (let i = 0; i < data.totalChapters; i++) {
         let isDone = data.completed[i];
@@ -119,7 +133,7 @@ function toggleChapter(i) {
     saveData(); 
     renderChapters(); 
     updateSubjectProgress();
-    updateCoins(); // السطر الجديد ده عشان يحسب النقاط فوراً
+    updateCoins(); // تحديث النقاط فوراً
 }
 
 function updateSubjectProgress() {
@@ -130,8 +144,16 @@ function updateSubjectProgress() {
     document.getElementById('subjectProgressText').innerText = `${pct}%`;
 }
 
-function saveNotes() { userData.subjects[currentActiveSubject].notes = document.getElementById('subjectNotes').value; saveData(); }
-function saveData() { localStorage.setItem('studyApp_Data', JSON.stringify(userData)); localStorage.setItem('studyApp_GPA', JSON.stringify(gpaCourses)); }
+// --- الحفظ في المتصفح ---
+function saveNotes() { 
+    userData.subjects[currentActiveSubject].notes = document.getElementById('subjectNotes').value; 
+    saveData(); 
+}
+
+function saveData() { 
+    localStorage.setItem('studyApp_Data', JSON.stringify(userData)); 
+    localStorage.setItem('studyApp_Wishlist', JSON.stringify(wishlist)); // تم التعديل لحفظ الأمنيات
+}
 
 // --- مؤقت بومودورو ---
 let timerInterval; let timeLeft = 25 * 60; let isRunning = false;
@@ -149,29 +171,7 @@ function startTimer() {
 function pauseTimer() { clearInterval(timerInterval); isRunning = false; }
 function resetTimer() { clearInterval(timerInterval); isRunning = false; timeLeft = 25 * 60; updateTimerDisplay(); }
 
-// --- حاسبة الـ GPA ---
-function addCourseToGpa() {
-    let hours = parseFloat(document.getElementById('gpaHours').value);
-    let grade = parseFloat(document.getElementById('gpaGrade').value);
-    if(!hours || hours <= 0) return alert("دخل عدد ساعات صحيح");
-    gpaCourses.push({ hours, grade }); saveData(); renderGpa();
-}
-function renderGpa() {
-    let list = document.getElementById('gpaList'); list.innerHTML = '';
-    let totalPoints = 0; let totalHours = 0;
-    gpaCourses.forEach((c, i) => {
-        totalPoints += c.hours * c.grade; totalHours += c.hours;
-        let li = document.createElement('div'); li.className = 'chapter-item';
-        li.innerHTML = `<span>ساعات: ${c.hours} | درجة: ${c.grade}</span> <button class="btn-danger" style="margin-right:auto" onclick="removeGpa(${i})">حذف</button>`;
-        list.appendChild(li);
-    });
-    let finalGpa = totalHours === 0 ? 0 : (totalPoints / totalHours).toFixed(2);
-    document.getElementById('finalGpa').innerText = finalGpa;
-}
-
-function removeGpa(index) { gpaCourses.splice(index, 1); saveData(); renderGpa(); }
-
-// دالة حساب وتحديث النقاط
+// --- حساب وتحديث النقاط (العملات) ---
 function updateCoins() {
     if (!userData) return;
     let totalDone = 0;
@@ -182,7 +182,44 @@ function updateCoins() {
     
     let dashCoin = document.getElementById('dashCoinCount');
     let subCoin = document.getElementById('subCoinCount');
+    let wishCoin = document.getElementById('wishCoinCount'); // حصالة صفحة الأمنيات
+    
     if(dashCoin) dashCoin.innerText = coins;
     if(subCoin) subCoin.innerText = coins;
+    if(wishCoin) wishCoin.innerText = coins;
 }
 
+// --- قائمة الأمنيات (Wishlist) ---
+function addWish() {
+    let input = document.getElementById('wishInput');
+    let wishText = input.value.trim();
+    if (!wishText) return alert("اكتب أمنيتك الأول يا بطل!");
+    
+    wishlist.push(wishText);
+    input.value = '';
+    saveData();
+    renderWishlist();
+}
+
+function renderWishlist() {
+    let list = document.getElementById('wishList'); 
+    if(!list) return;
+    list.innerHTML = '';
+    
+    wishlist.forEach((wish, index) => {
+        let li = document.createElement('li'); 
+        li.className = 'chapter-item';
+        li.innerHTML = `
+            <span style="font-size: 18px;">🎯 ${wish}</span> 
+            <button class="btn-danger" style="margin-right:auto; padding: 5px 10px; font-size: 14px;" onclick="removeWish(${index})">حذف</button>
+        `;
+        list.appendChild(li);
+    });
+    updateCoins();
+}
+
+function removeWish(index) { 
+    wishlist.splice(index, 1); 
+    saveData(); 
+    renderWishlist(); 
+}

@@ -14,28 +14,28 @@
         <p>طريقك للتفوق...</p>
     </div>
 
+    <div id="top-bar" class="top-bar" style="display: none;">
+        <h3 id="welcomeName" style="margin: 0; font-size: 16px;">مرحباً</h3>
+        <div style="display: flex; gap: 8px; align-items: center;">
+            <div class="coin-badge" title="حصالة العملات">🪙 <span id="globalCoinCount">0</span></div>
+            <button class="btn-icon" onclick="toggleDarkMode()">🌙/☀️</button>
+            <button class="btn-icon" style="color: var(--danger);" onclick="logout()">🚪</button>
+        </div>
+    </div>
+
     <div class="app-container" id="app-container" style="display: none;">
         
         <div id="login-screen" class="screen">
-            <h2>مرحباً بك 🎓</h2>
+            <h2 style="text-align: center; font-size: 30px; margin-bottom: 30px;">مرحباً بك 🎓</h2>
             <input type="text" id="studentName" placeholder="اكتب اسمك هنا...">
             <select id="takesCourses">
                 <option value="yes">بآخد كورسات</option>
                 <option value="no">مابآخدش كورسات (اعتماد ذاتي)</option>
             </select>
-            <button class="btn-primary" onclick="startApp()">دخول</button>
+            <button class="btn-primary" onclick="startApp()">دخول للتطبيق</button>
         </div>
 
-        <div id="dashboard-screen" class="screen" style="display: none;">
-            <div class="header">
-                <h2 id="welcomeName">مرحباً</h2>
-                <div style="display: flex; gap: 10px; align-items: center;">
-                    <div class="coin-badge" title="حصالة العملات">🪙 <span id="dashCoinCount">0</span></div>
-                    <button class="btn-icon" onclick="toggleDarkMode()">🌙/☀️</button>
-                    <button class="btn-danger" onclick="logout()">خروج</button>
-                </div>
-            </div>
-            
+        <div id="dashboard-screen" class="screen main-content" style="display: none;">
             <div class="quote-card" id="quoteText">"النجاح هو مجموع مجهودات صغيرة تتكرر يومياً."</div>
 
             <div class="overall-progress-card">
@@ -44,21 +44,18 @@
                 <p id="overallProgressText">0%</p>
             </div>
 
-            <button class="btn-secondary" style="width: 100%; margin-bottom: 20px;" onclick="showScreen('wishlist-screen')">✨ قائمة أمنياتي (Wishlist)</button>
-
             <h3 class="section-title">المواد الدراسية 📚</h3>
             <div class="subjects-grid" id="subjectsGrid"></div>
         </div>
 
-        <div id="subject-screen" class="screen" style="display: none;">
-            <div class="header">
-                <button class="btn-secondary" onclick="goBack()">&rarr; رجوع</button>
-                <h2 id="subjectTitle">اسم المادة</h2>
-                <div class="coin-badge" title="حصالة العملات">🪙 <span id="subCoinCount">0</span></div>
+        <div id="subject-screen" class="screen main-content" style="display: none;">
+            <div class="header" style="margin-bottom: 10px;">
+                <button class="btn-secondary" onclick="showScreen('dashboard-screen')">&rarr; رجوع</button>
+                <h2 id="subjectTitle" style="margin: 0;">اسم المادة</h2>
             </div>
 
             <div class="pomodoro-card">
-                <h3>⏱ مؤقت التركيز (Pomodoro)</h3>
+                <h3>⏱ مؤقت التركيز</h3>
                 <div class="timer-display" id="timerDisplay">25:00</div>
                 <div class="timer-controls">
                     <button class="btn-primary" onclick="startTimer()">ابدأ</button>
@@ -75,32 +72,55 @@
 
             <h3 class="section-title">فصول المادة</h3>
             <div id="chaptersList" class="chapters-list"></div>
-
-            <h3 class="section-title">دفتر الملاحظات 📝</h3>
-            <textarea id="subjectNotes" placeholder="اكتب ملاحظاتك..." oninput="saveNotes()"></textarea>
         </div>
 
-        <div id="wishlist-screen" class="screen" style="display: none;">
-            <div class="header">
-                <button class="btn-secondary" onclick="showScreen('dashboard-screen')">&rarr; رجوع</button>
-                <h2>أمنياتي ✨</h2>
-                <div class="coin-badge" title="حصالة العملات">🪙 <span id="wishCoinCount">0</span></div>
-            </div>
-            
+        <div id="tasks-screen" class="screen main-content" style="display: none;">
+            <h2 style="text-align: center;">المهام اليومية ✅</h2>
             <div class="gpa-card">
-                <input type="text" id="wishInput" placeholder="اكتب أمنيتك هنا (نفسك في إيه؟)...">
+                <input type="text" id="taskInput" placeholder="اكتب مهمة جديدة هنا...">
+                <button class="btn-primary" onclick="addTask()">إضافة المهمة</button>
+            </div>
+            <ul id="tasksList" class="chapters-list" style="margin-top: 15px; padding: 0; list-style: none;"></ul>
+        </div>
+
+        <div id="wishlist-screen" class="screen main-content" style="display: none;">
+            <h2 style="text-align: center;">أمنياتي ✨</h2>
+            <div class="gpa-card">
+                <input type="text" id="wishInput" placeholder="اكتب أمنيتك هنا...">
                 <button class="btn-primary" onclick="addWish()">إضافة الأمنية</button>
             </div>
-            
-            <ul id="wishList" class="chapters-list" style="margin-top: 15px; padding: 0; list-style: none;">
-                </ul>
+            <ul id="wishList" class="chapters-list" style="margin-top: 15px; padding: 0; list-style: none;"></ul>
         </div>
 
-        <div class="footer">
-            <p>جميع الحقوق محفوظة &copy; 2026 | تطوير <b>Ahmed Hafez</b></p>
+        <div id="notebook-screen" class="screen main-content" style="display: none;">
+            <h2 style="text-align: center;">دفتر الملاحظات 📝</h2>
+            <div class="gpa-card">
+                <textarea id="globalNotesInput" placeholder="اكتب كل أفكارك، ملخصاتك، أو ملاحظاتك هنا... سيتم حفظها تلقائياً" style="height: 300px;" oninput="saveGlobalNotes()"></textarea>
+            </div>
         </div>
 
-    </div> <script src="script.js"></script>
+    </div>
+
+    <div id="bottom-bar" class="bottom-bar" style="display: none;">
+        <div class="nav-item" onclick="showScreen('dashboard-screen')">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-text">الرئيسية</span>
+        </div>
+        <div class="nav-item" onclick="showScreen('tasks-screen')">
+            <span class="nav-icon">✅</span>
+            <span class="nav-text">المهام</span>
+        </div>
+        <div class="nav-item" onclick="showScreen('wishlist-screen')">
+            <span class="nav-icon">✨</span>
+            <span class="nav-text">الأمنيات</span>
+        </div>
+        <div class="nav-item" onclick="showScreen('notebook-screen')">
+            <span class="nav-icon">📝</span>
+            <span class="nav-text">ملاحظات</span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
 

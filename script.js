@@ -17,7 +17,7 @@ const quotes = [
 
 let userData = JSON.parse(localStorage.getItem('studyApp_Data')) || null;
 let currentActiveSubject = null;
-let gpaCourses = JSON.parse(localStorage.getItem('studyApp_GPA')) || [];
+let wishlist = JSON.parse(localStorage.getItem('studyApp_Wishlist')) || [];
 
 // --- تهيئة التطبيق والشاشة الافتتاحية ---
 window.onload = () => {
@@ -39,7 +39,7 @@ window.onload = () => {
 function showScreen(screenId) {
     document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
     document.getElementById(screenId).style.display = 'block';
-    if(screenId === 'gpa-screen') renderGpa();
+    if(screenId === 'wishlist-screen') renderWishlist(); // تحديث عشان الأمنيات
 }
 
 // --- تسجيل الدخول والخروج ---
@@ -50,9 +50,12 @@ function startApp() {
     saveData(); showScreen('dashboard-screen'); renderDashboard();
 }
 
+// --- تسجيل الخروج ---
 function logout() {
     if(confirm("متأكد من الخروج ومسح البيانات؟")) {
-        localStorage.clear(); userData = null; gpaCourses = [];
+        localStorage.clear(); 
+        userData = null; 
+        wishlist = []; // تصفير الأمنيات
         showScreen('login-screen');
     }
 }
@@ -182,3 +185,4 @@ function updateCoins() {
     if(dashCoin) dashCoin.innerText = coins;
     if(subCoin) subCoin.innerText = coins;
 }
+

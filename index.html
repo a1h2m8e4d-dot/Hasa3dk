@@ -81,26 +81,21 @@
             <textarea id="subjectNotes" placeholder="اكتب ملاحظاتك..." oninput="saveNotes()"></textarea>
         </div>
 
-        <div id="gpa-screen" class="screen" style="display: none;">
+      <div id="wishlist-screen" class="screen" style="display: none;">
             <div class="header">
                 <button class="btn-secondary" onclick="showScreen('dashboard-screen')">&rarr; رجوع</button>
-                <h2>حاسبة الـ GPA 🧮</h2>
+                <h2>أمنياتي ✨</h2>
+                <div class="coin-badge" title="حصالة العملات">🪙 <span id="wishCoinCount">0</span></div>
             </div>
+            
             <div class="gpa-card">
-                <input type="number" id="gpaHours" placeholder="عدد الساعات للمادة...">
-                <select id="gpaGrade">
-                    <option value="4">A (امتياز)</option>
-                    <option value="3">B (جيد جداً)</option>
-                    <option value="2">C (جيد)</option>
-                    <option value="1">D (مقبول)</option>
-                </select>
-                <button class="btn-primary" onclick="addCourseToGpa()">إضافة المادة</button>
+                <input type="text" id="wishInput" placeholder="اكتب أمنيتك هنا (نفسك في إيه؟)...">
+                <button class="btn-primary" onclick="addWish()">إضافة الأمنية</button>
             </div>
-            <ul id="gpaList" class="chapters-list" style="margin-top: 15px;"></ul>
-            <div class="overall-progress-card">
-                <h3>المعدل التراكمي (GPA)</h3>
-                <h2 id="finalGpa" style="color: var(--primary);">0.00</h2>
-            </div>
+            
+            <ul id="wishList" class="chapters-list" style="margin-top: 15px; padding: 0; list-style: none;">
+                </ul>
+        </div>
         </div>
 
         <div class="footer">
@@ -110,5 +105,6 @@
     </div> <script src="script.js"></script>
 </body>
 </html>
+
 
 

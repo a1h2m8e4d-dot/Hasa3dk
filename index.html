@@ -27,7 +27,7 @@
         </div>
 
         <div id="dashboard-screen" class="screen" style="display: none;">
-           <div class="header">
+            <div class="header">
                 <h2 id="welcomeName">مرحباً</h2>
                 <div style="display: flex; gap: 10px; align-items: center;">
                     <div class="coin-badge" title="حصالة العملات">🪙 <span id="dashCoinCount">0</span></div>
@@ -44,7 +44,7 @@
                 <p id="overallProgressText">0%</p>
             </div>
 
-            <button class="btn-secondary" style="width: 100%; margin-bottom: 20px;" onclick="showScreen('gpa-screen')">🧮 حاسبة المعدل (GPA)</button>
+            <button class="btn-secondary" style="width: 100%; margin-bottom: 20px;" onclick="showScreen('wishlist-screen')">✨ قائمة أمنياتي (Wishlist)</button>
 
             <h3 class="section-title">المواد الدراسية 📚</h3>
             <div class="subjects-grid" id="subjectsGrid"></div>
@@ -57,7 +57,6 @@
                 <div class="coin-badge" title="حصالة العملات">🪙 <span id="subCoinCount">0</span></div>
             </div>
 
-           
             <div class="pomodoro-card">
                 <h3>⏱ مؤقت التركيز (Pomodoro)</h3>
                 <div class="timer-display" id="timerDisplay">25:00</div>
@@ -81,7 +80,7 @@
             <textarea id="subjectNotes" placeholder="اكتب ملاحظاتك..." oninput="saveNotes()"></textarea>
         </div>
 
-      <div id="wishlist-screen" class="screen" style="display: none;">
+        <div id="wishlist-screen" class="screen" style="display: none;">
             <div class="header">
                 <button class="btn-secondary" onclick="showScreen('dashboard-screen')">&rarr; رجوع</button>
                 <h2>أمنياتي ✨</h2>
@@ -96,7 +95,6 @@
             <ul id="wishList" class="chapters-list" style="margin-top: 15px; padding: 0; list-style: none;">
                 </ul>
         </div>
-        </div>
 
         <div class="footer">
             <p>جميع الحقوق محفوظة &copy; 2026 | تطوير <b>Ahmed Hafez</b></p>
@@ -105,6 +103,5 @@
     </div> <script src="script.js"></script>
 </body>
 </html>
-
 
 

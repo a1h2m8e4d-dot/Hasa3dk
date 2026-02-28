@@ -82,6 +82,7 @@ function renderDashboard() {
         card.onclick = () => openSubject(sub);
         card.innerHTML = `<h4>${sub}</h4><p>${data.totalChapters} فصول</p><p style="color: var(--success);">${Math.round((done/data.totalChapters)*100)}%</p>`;
         grid.appendChild(card);
+        updateCoins();
     }
     let overAll = Math.round((totalDone / totalAll) * 100);
     document.getElementById('overallProgressBar').style.width = `${overAll}%`;
@@ -112,7 +113,10 @@ function renderChapters() {
 
 function toggleChapter(i) {
     userData.subjects[currentActiveSubject].completed[i] = !userData.subjects[currentActiveSubject].completed[i];
-    saveData(); renderChapters(); updateSubjectProgress();
+    saveData(); 
+    renderChapters(); 
+    updateSubjectProgress();
+    updateCoins(); // السطر الجديد ده عشان يحسب النقاط فوراً
 }
 
 function updateSubjectProgress() {
@@ -163,3 +167,18 @@ function renderGpa() {
 }
 
 function removeGpa(index) { gpaCourses.splice(index, 1); saveData(); renderGpa(); }
+
+// دالة حساب وتحديث النقاط
+function updateCoins() {
+    if (!userData) return;
+    let totalDone = 0;
+    for (let sub in userData.subjects) {
+        totalDone += userData.subjects[sub].completed.filter(ch => ch === true).length;
+    }
+    let coins = totalDone * 10; // 10 عملات لكل فصل
+    
+    let dashCoin = document.getElementById('dashCoinCount');
+    let subCoin = document.getElementById('subCoinCount');
+    if(dashCoin) dashCoin.innerText = coins;
+    if(subCoin) subCoin.innerText = coins;
+}
